@@ -23,7 +23,7 @@ int main() {
     init(fda);
     initPile(pile);
 
-    while (choix != 4) {
+    while (choix != 5) {
 
         switch (choix) {
             case 0 :
@@ -42,6 +42,9 @@ int main() {
                 break;
             case 3:
                 calculLongFda(fda);
+                break;
+            case 4:
+                undo(fda, pile);
                 break;
             default:
                 cout << "A plus !";

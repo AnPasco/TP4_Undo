@@ -14,17 +14,18 @@ enum Action {
 typedef struct Maillon {
     char *nom;
     Maillon *suivant;
+    Maillon *precedent;
 } Maillon;
 
 typedef struct Historique {
     Maillon *derniereModif;
     Action derniereAction;
     Historique *suivant;
-}Historique;
+} Historique;
 
 typedef struct Plie {
     Historique *tete;
-}Pile;
+} Pile;
 
 typedef struct FileAttente {
     Maillon *tete;
@@ -44,6 +45,8 @@ void suppEnTete(FileAttente *fda, Pile *pile);
 void calculLongFda(FileAttente *fda);
 
 void desinit(FileAttente *fda);
+
+void undo(FileAttente *fda, Pile *pile);
 
 /////////////////////////////// PILE /////////////////////////////////////
 

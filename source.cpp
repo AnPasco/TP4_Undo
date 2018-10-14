@@ -11,7 +11,8 @@ void menu(int &choix) {
     cout << "1 - Retirer la personne en tete" << endl;
     cout << "2 - Consulter la personne en tete de file" << endl;
     cout << "3 - Calculer la longueur de la file d'attente" << endl;
-    cout << "4 - Quitter" << endl;
+    cout << "4 - Undo" << endl;
+    cout << "5 - Quitter" << endl;
 
     cout << "Choisissez une option :" << endl;
     cin >> choix;
@@ -47,6 +48,7 @@ void ajoutPersonneQueue(FileAttente *fda, char *nom, Pile *pile) {
 
     np->nom = nom;
     np->suivant = nullptr;
+    np->precedent = fda->queue;
 
     initHistorique(derniereAction, np, AJOUT_QUEUE, pile->tete);
     empilerHistorique(pile, derniereAction);
@@ -86,16 +88,17 @@ void suppEnTete(FileAttente *fda, Pile *pile) {
     if (fda->tete == nullptr) {
         cout << "File d'attente vide !" << endl;
     } else {
-        Maillon *temp = (Maillon *) malloc(sizeof(Maillon));
         Historique *derniereAction;
         derniereAction = (Historique *) malloc(sizeof(Historique));
 
-        initHistorique(derniereAction, fda->tete, AJOUT_QUEUE, pile->tete);
+        initHistorique(derniereAction, fda->tete, SUPPRESSION_TETE, pile->tete);
         empilerHistorique(pile, derniereAction);
 
-        temp = fda->tete;
         fda->tete = fda->tete->suivant;
-        free(temp);
+        if (fda->tete != nullptr) {
+            fda->tete->precedent = nullptr;
+        }
+
         cout << "Personne supprimer ! " << endl;
     }
 }
@@ -125,6 +128,45 @@ void calculLongFda(FileAttente *fda) {
 
 }
 
+//Procedure qui annule la dernière action effectué
+//Para-Entrée : Pointeur vers la file d'attente actuelle
+//Post-Cond : La dernière action réalisée à était anuulée
+void undo(FileAttente *fda, Pile *pile) {
+    if (fda != nullptr && pile->tete != nullptr) {
+
+        if (pile->tete->derniereAction == SUPPRESSION_TETE) {
+
+            if (fda->tete != nullptr) {
+                fda->tete->precedent = pile->tete->derniereModif;
+            }
+
+            fda->tete = pile->tete->derniereModif;
+            cout << "La suppression de : " << pile->tete->derniereModif->nom << " en tete de file, a ete annule"
+                 << endl;
+
+            depilerHistorique(pile);
+        } else if (pile->tete->derniereAction == AJOUT_QUEUE) {
+
+            if (fda->queue->precedent == nullptr) {
+                fda->tete = nullptr;
+            }
+
+            fda->queue = fda->queue->precedent;
+
+            if (fda->queue != nullptr) {
+                fda->queue->suivant = nullptr;
+            }
+
+            cout << "L'ajout de : " << pile->tete->derniereModif->nom << " en queue de file, a ete annule"
+                 << endl;
+
+            depilerHistorique(pile);
+        }
+    } else {
+        cout << "Aucune action recente peut etre annulee" << endl;
+    }
+}
+
 //////////////////////////////////////// Pile //////////////////////////////////////////
 
 //Procedure qui permet d'initiaiser la pile
@@ -144,10 +186,14 @@ void initHistorique(Historique *historique, Maillon *derniereModif, Action derni
     historique->suivant = suivant;
 }
 
-void empilerHistorique(Pile *pile, Historique *derniereAction){
+//procedure qui empile la dernière action
+//Para-Entrée: Un pointeur vers la pile, La structure Historique à ajouter
+void empilerHistorique(Pile *pile, Historique *derniereAction) {
     pile->tete = derniereAction;
 }
 
-void depilerHistorique(Pile *pile){
+//procedure qui dépile la dernière action enregistré
+//Para-Entrée: Un pointeur vers la pile
+void depilerHistorique(Pile *pile) {
     pile->tete = pile->tete->suivant;
 }
