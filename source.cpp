@@ -16,14 +16,14 @@ void menu() {
 }
 
 //Procedure qui permet d'initiaiser la file d'attente
-//Para-Sortie : fda
-//Post-Cond : Que la file d'attente soit vide
+//Sortie : Pointeur vers une file d'attente
+//Post-Condition : Que la file d'attente soit vide
 void init(FileAttente *fda) {
     fda->tete = nullptr;
     fda->queue = nullptr;
 }
 
-//procedure qui désinitialise la file d'attente
+//Procedure qui désinitialise la file d'attente
 //Para-Entrée : fda
 //Para-Sortie : fda
 //La file d'attente est vide
@@ -171,6 +171,14 @@ void undo(FileAttente *fda, Pile *pile) {
 //Post-Cond : Que la pile soit vide
 void initPile(Pile *pile) {
     pile->tete = nullptr;
+}
+
+//procedure qui désinitialise la pile
+//para-entrée : pile
+//para-sortie : pile
+// La pile est vide
+void desinitPile(Pile *pile){
+    free(pile->tete);
 }
 
 //Procedure qui permet d'initiaiser l'historique

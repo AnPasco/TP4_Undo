@@ -61,4 +61,5 @@ int main() {
 
     free(nom);
     desinit(fda);
+    desinitPile(pile);
 }

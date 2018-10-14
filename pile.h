@@ -58,5 +58,7 @@ void empilerHistorique(Pile *pile, Historique *derniereAction);
 
 void depilerHistorique(Pile *pile);
 
+void desinitPile(Pile *pile);
+
 #endif //TP4_UNDO_PILE_H
 
