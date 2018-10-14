@@ -32,7 +32,7 @@ typedef struct FileAttente {
     Maillon *queue;
 } FileAttente;
 
-void menu(int &choix);
+void menu();
 
 void init(FileAttente *fda);
 

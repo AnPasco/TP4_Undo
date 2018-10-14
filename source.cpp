@@ -6,16 +6,13 @@ using namespace std;
 ///////////////////////////////// File d'attente /////////////////////////////////
 
 //Procedure qui affiche le menu
-void menu(int &choix) {
+void menu() {
     cout << endl << "0 - Ajouter une personne en queue" << endl;
     cout << "1 - Retirer la personne en tete" << endl;
     cout << "2 - Consulter la personne en tete de file" << endl;
     cout << "3 - Calculer la longueur de la file d'attente" << endl;
     cout << "4 - Undo" << endl;
     cout << "5 - Quitter" << endl;
-
-    cout << "Choisissez une option :" << endl;
-    cin >> choix;
 }
 
 //Procedure qui permet d'initiaiser la file d'attente

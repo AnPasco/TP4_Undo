@@ -18,7 +18,9 @@ int main() {
 
 
     cout << "FILE D'ATTENTE";
-    menu(choix);
+    menu();
+    cout << "Choisissez une option :" << endl;
+    cin >> choix;
 
     init(fda);
     initPile(pile);
@@ -52,7 +54,9 @@ int main() {
                 break;
         }
 
-        menu(choix);
+        menu();
+        cout << "Choisissez une option :" << endl;
+        cin >> choix;
     }
 
     free(nom);
