@@ -14,9 +14,9 @@ int main() {
     FileAttente *fda, *fdaCp;
     Pile *pile;
 
-
     fda = (FileAttente *) malloc(sizeof(FileAttente));
     pile = (Pile *) malloc(sizeof(Pile));
+
 
     cout << "FILE D'ATTENTE";
     menu(choix);
@@ -33,10 +33,10 @@ int main() {
                      << endl;
                 cin >> setw(taille_input) >> nom;
 
-                ajoutPersonneQueue(fda, nom);
+                ajoutPersonneQueue(fda, nom, pile);
                 break;
             case 1 :
-                suppEnTete(fda);
+                suppEnTete(fda, pile);
                 break;
             case 2 :
                 persTeteListe(fda);

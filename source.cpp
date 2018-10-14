@@ -39,12 +39,18 @@ void desinit(FileAttente *fda) {
 //Para-entrée : fda, num
 //Para-sortie : fda
 // Post-Cond : la file d'attente avec une nouvelle personne en queue
-void ajoutPersonneQueue(FileAttente *fda, char *nom) {
+void ajoutPersonneQueue(FileAttente *fda, char *nom, Pile *pile) {
 
     Maillon *np;
+    Historique *derniereAction;
     np = (Maillon *) malloc(sizeof(Maillon));
+    derniereAction = (Historique *) malloc(sizeof(Historique));
+
     np->nom = nom;
     np->suivant = nullptr;
+
+    initHistorique(derniereAction, np, AJOUT_QUEUE, pile->tete);
+    empilerHistorique(pile, derniereAction);
 
     if (fda->tete == nullptr) {
         fda->tete = fda->queue = np;
@@ -76,12 +82,18 @@ void persTeteListe(FileAttente *fda) {
 //Procedure permettant de supprimer la personne en tete
 //Para-Entrée : fda
 //Post-Cond : la file d'attente avec un élément en moins au début
-void suppEnTete(FileAttente *fda) {
+void suppEnTete(FileAttente *fda, Pile *pile) {
 
     if (fda->tete == nullptr) {
         cout << "File d'attente vide !" << endl;
     } else {
         Maillon *temp = (Maillon *) malloc(sizeof(Maillon));
+        Historique *derniereAction;
+        derniereAction = (Historique *) malloc(sizeof(Historique));
+
+        initHistorique(derniereAction, fda->tete, AJOUT_QUEUE, pile->tete);
+        empilerHistorique(pile, derniereAction);
+
         temp = fda->tete;
         fda->tete = fda->tete->suivant;
         free(temp);
@@ -119,7 +131,24 @@ void calculLongFda(FileAttente *fda) {
 //Procedure qui permet d'initiaiser la pile
 //Para-Sortie : pile
 //Post-Cond : Que la pile soit vide
-void initPile(Pile *pile){
+void initPile(Pile *pile) {
     pile->tete = nullptr;
 }
 
+//Procedure qui permet d'initiaiser l'historique
+//Para-Entrée : historique, maillon, action, hisorique suivant
+//Para-sortie : historique
+//Post-Cond : Que l'historique soit initialisé
+void initHistorique(Historique *historique, Maillon *derniereModif, Action derniereAction, Historique *suivant) {
+    historique->derniereModif = derniereModif;
+    historique->derniereAction = derniereAction;
+    historique->suivant = suivant;
+}
+
+void empilerHistorique(Pile *pile, Historique *derniereAction){
+    pile->tete = derniereAction;
+}
+
+void depilerHistorique(Pile *pile){
+    pile->tete = pile->tete->suivant;
+}
