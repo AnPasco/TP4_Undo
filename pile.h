@@ -7,18 +7,21 @@
 
 #include "fileAttente.h"
 
-typedef struct Maillon2{
-    FileAttente *fdaEnre;
-    Maillon2 *suivant;
-} Maillon2;
+enum Action {
+    SUPPRESSION_TETE, AJOUT_QUEUE
+};
 
-typedef Maillon2 *Pile;
+typedef struct Historique {
+    Maillon *derniereModif;
+    Action derniereAction;
+    Historique *suivant;
+}Historique;
 
-void dupliquer(FileAttente *fda, FileAttente *fdaCp);
+typedef struct Plie {
+    Historique *tete;
+}Pile;
 
-void empiler(Pile &pile, FileAttente *fdaCp);
-
-FileAttente *sommet(Pile pile);
+void initPile(Pile *pile);
 
 #endif //TP4_UNDO_PILE_H
 

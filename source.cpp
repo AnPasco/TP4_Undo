@@ -116,44 +116,10 @@ void calculLongFda(FileAttente *fda) {
 
 //////////////////////////////////////// Pile //////////////////////////////////////////
 
-//Procedure qui duplique une file d'attente
-//Para-Entrée : fda, fdaCp
-//Post-Cond : La file d'attente a etait copier dans la nouvelle file d'attente
-void dupliquer(FileAttente *fda, FileAttente *fdaCp) {
-    Maillon *np;
-    np = (Maillon *) malloc(sizeof(Maillon));
-
-    np = fda->tete;
-    while (np != nullptr) {
-        ajoutPersonneQueue(fdaCp, (*np).nom);
-        np = np->suivant;
-    }
-    fdaCp->queue = np;
+//Procedure qui permet d'initiaiser la pile
+//Para-Sortie : pile
+//Post-Cond : Que la pile soit vide
+void initPile(Pile *pile){
+    pile->tete = nullptr;
 }
 
-//Procedure qui empile le fda sur la pile
-//Para-Entrée : la copie de la file d'attente
-//Para-Sortie : la pile avec un nouvel element
-void empiler(Pile &pile, FileAttente *fdaCp) {
-    Maillon2 *np;
-    np = (Maillon2 *) malloc(sizeof(Maillon2));
-
-    np->suivant = pile;
-    pile = np;
-    pile->fdaEnre = fdaCp;
-}
-
-FileAttente *sommet(Pile pile) {
-
-    if (pile->fdaEnre == nullptr) {
-        cout << "La pile est vide !" << endl;
-    }else{
-       return pile->fdaEnre;
-    }
-
-}
-
-void depiler(Pile &pile, FileAttente *fdaCp){
-    Maillon2 *np;
-    np = (Maillon2 *) malloc(sizeof(Maillon2));
-}
